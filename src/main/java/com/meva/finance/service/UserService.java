@@ -62,4 +62,12 @@ public class UserService {
         userMeva.getFamily().setDescription(userDto.getFamily());
         return userMeva;
     }
+
+    public ResponseEntity delete(String cpf) {
+        if (userRepository.findById(cpf).isPresent()) {
+            userRepository.deleteById(cpf);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

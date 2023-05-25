@@ -40,4 +40,9 @@ public class UserController {
     public ResponseEntity searchCpf(@PathVariable String cpf){
         return userService.searchForCpf(cpf);
     }
+
+    @DeleteMapping("/delete/{cpf}")
+    public ResponseEntity delete(@PathVariable String cpf){
+        return userService.delete(cpf);
+    }
 }
