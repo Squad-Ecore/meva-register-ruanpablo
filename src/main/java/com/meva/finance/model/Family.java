@@ -1,28 +1,21 @@
 package com.meva.finance.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.persistence.*;
 
-@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Data
+@Builder
 @Entity
+@Table(name = "family")
 public class Family {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "family_id_family_seq")
+    @SequenceGenerator(name = "family_id_family_seq", sequenceName = "family_id_family_seq", allocationSize = 1)
+    @Column(name = "id_family")
     private Long id;
-    @NotEmpty @Size(max = 255)
     private String description;
-
-    public Family() {
-    }
-
-    public Family(String description) {
-        this.description = description;
-    }
 }

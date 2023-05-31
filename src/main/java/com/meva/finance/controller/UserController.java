@@ -1,16 +1,15 @@
-package com.meva.finance.api;
+package com.meva.finance.controller;
 
 import com.meva.finance.dto.UserMevaDto;
 import com.meva.finance.model.UserMeva;
 import com.meva.finance.service.UserService;
+import com.meva.finance.validation.ValidExceptionFamily;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -22,12 +21,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register") @Transactional
-    public ResponseEntity<UserMevaDto> register(@RequestBody @Valid UserMevaDto userDto, UriComponentsBuilder uriBuilder){
-        return userService.register(userDto, uriBuilder);
+    public ResponseEntity<String> register(@RequestBody UserMevaDto userDto) throws ValidExceptionFamily{
+        return userService.register(userDto);
     }
 
     @PutMapping("/update/{cpf}") @Transactional
-    public ResponseEntity<UserMevaDto> update(@PathVariable String cpf, @RequestBody @Valid UserMevaDto userDto){
+    public ResponseEntity<UserMevaDto> update(String cpf, @RequestBody UserMevaDto userDto){
         return userService.update(userDto, cpf);
     }
 
