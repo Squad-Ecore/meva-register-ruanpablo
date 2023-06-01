@@ -3,7 +3,7 @@ package com.meva.finance.controller;
 import com.meva.finance.dto.UserMevaDto;
 import com.meva.finance.model.UserMeva;
 import com.meva.finance.service.UserService;
-import com.meva.finance.validation.ValidExceptionFamily;
+import com.meva.finance.validation.ValidException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register") @Transactional
-    public ResponseEntity<String> register(@RequestBody UserMevaDto userDto) throws ValidExceptionFamily{
+    public ResponseEntity<String> register(@RequestBody UserMevaDto userDto) throws ValidException {
         return userService.register(userDto);
     }
 

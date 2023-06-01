@@ -1,6 +1,5 @@
 package com.meva.finance.model;
 
-import com.meva.finance.dto.CategoryDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,8 +17,4 @@ public class Category {
     @Column(name = "id_category")
     private Long id;
     private String description;
-
-    public CategoryDto converter() {
-        return CategoryDto.builder().id(id).description(description).build();
-    }
 }

@@ -5,12 +5,11 @@ import com.meva.finance.model.Family;
 import com.meva.finance.model.UserMeva;
 import com.meva.finance.repository.FamilyRepository;
 import com.meva.finance.repository.UserRepository;
-import com.meva.finance.validation.ValidExceptionFamily;
+import com.meva.finance.validation.ValidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,9 +23,9 @@ public class UserService {
     @Autowired
     private FamilyRepository familyRepository;
 
-    public ResponseEntity<String> register(UserMevaDto userDto) throws ValidExceptionFamily {
+    public ResponseEntity<String> register(UserMevaDto userDto) throws ValidException {
         if (userRepository.findById(userDto.getCpf()).isPresent()) {
-            throw new ValidExceptionFamily("Cpf já cadastrado no sistema.");
+            throw new ValidException("Cpf já cadastrado no sistema.");
         }
         UserMeva userMeva = userDto.converter();
         userMeva.setFamily(validExceptionFamily(userDto));
@@ -43,12 +42,12 @@ public class UserService {
         return ResponseEntity.notFound().build();
     }
 
-    public Family validExceptionFamily(UserMevaDto userDto) throws ValidExceptionFamily {
+    public Family validExceptionFamily(UserMevaDto userDto) throws ValidException {
         Long idFamily = userDto.getFamilyDto().getId();
         if (idFamily == 0) {
             return familyRepository.save(userDto.getFamilyDto().converter());
         } else if ((Objects.isNull(idFamily)) || !(familyRepository.findById(idFamily).isPresent())){
-            throw new ValidExceptionFamily("O id da família não foi encontrado.");
+            throw new ValidException("O id da família não foi encontrado.");
         }
         return familyRepository.save(userDto.getFamilyDto().converter());
 
