@@ -21,8 +21,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register") @Transactional
-    public ResponseEntity<String> register(@RequestBody UserMevaDto userDto) throws ValidException {
-        return userService.register(userDto);
+    public ResponseEntity<UserMevaDto> register(@RequestBody UserMevaDto userDto) throws ValidException {
+        return ResponseEntity.ok(userService.register(userDto).converter());
     }
 
     @PutMapping("/update/{cpf}") @Transactional

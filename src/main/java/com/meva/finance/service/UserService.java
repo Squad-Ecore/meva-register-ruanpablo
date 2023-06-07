@@ -17,20 +17,22 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private FamilyRepository familyRepository;
 
-    public ResponseEntity<String> register(UserMevaDto userDto) throws ValidException {
+    @Autowired
+    public UserService(UserRepository userRepository, FamilyRepository familyRepository) {
+        this.userRepository = userRepository;
+        this.familyRepository = familyRepository;
+    }
+
+    public UserMeva register(UserMevaDto userDto) throws ValidException {
         if (userRepository.findById(userDto.getCpf()).isPresent()) {
             throw new ValidException("Cpf já cadastrado no sistema.");
         }
-        UserMeva userMeva = userDto.converter();
-        userMeva.setFamily(validExceptionFamily(userDto));
-        userRepository.save(userMeva);
-        return ResponseEntity.ok(userDto.getCpf());
+        UserMeva user = userDto.converter();
+        user.setFamily(validExceptionFamily(userDto));
+        return userRepository.save(user);
     }
 
     public ResponseEntity<UserMevaDto> update(UserMevaDto userDto, String cpf) {
@@ -44,13 +46,12 @@ public class UserService {
 
     public Family validExceptionFamily(UserMevaDto userDto) throws ValidException {
         Long idFamily = userDto.getFamilyDto().getId();
-        if (idFamily == 0) {
+        if (idFamily == null) {
+            throw new ValidException("O id da família é nulo.");
+        } else if (familyRepository.findById(idFamily).isPresent() || idFamily == 0) {
             return familyRepository.save(userDto.getFamilyDto().converter());
-        } else if ((Objects.isNull(idFamily)) || !(familyRepository.findById(idFamily).isPresent())){
-            throw new ValidException("O id da família não foi encontrado.");
         }
-        return familyRepository.save(userDto.getFamilyDto().converter());
-
+        throw new ValidException("O id da família não foi encontrado.");
     }
 
     public List<UserMeva> list() {

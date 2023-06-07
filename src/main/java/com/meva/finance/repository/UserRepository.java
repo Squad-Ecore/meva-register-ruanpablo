@@ -10,5 +10,5 @@ public interface UserRepository extends JpaRepository<UserMeva, String> {
     Optional<UserMeva> findById(String cpf);
 
     @Query("SELECT u FROM UserMeva u WHERE u.cpf = :cpf")
-    public UserMeva findCpf(String  cpf);
+    UserMeva findCpf(String  cpf);
 }

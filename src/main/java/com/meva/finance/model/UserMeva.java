@@ -26,4 +26,8 @@ public class UserMeva {
     @JoinColumn(name = "id_family")
     private Family family;
 
+    public UserMevaDto converter(){
+        return UserMevaDto.builder().cpf(cpf).name(name).genre(genre).birth(birth).state(state).city(city).build();
+    }
+
 }
