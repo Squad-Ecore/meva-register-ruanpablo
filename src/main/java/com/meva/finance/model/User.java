@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @Table(name = "user_meva")
-public class UserMeva {
+public class User {
 
     @Id @Column(unique = true)
     private String cpf;

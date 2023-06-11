@@ -1,7 +1,7 @@
 package com.meva.finance.controller;
 
 import com.meva.finance.dto.UserMevaDto;
-import com.meva.finance.model.UserMeva;
+import com.meva.finance.model.User;
 import com.meva.finance.service.UserService;
 import com.meva.finance.validation.ValidException;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/list")
+    public ResponseEntity<List<User>> list(){
+        return ResponseEntity.ok(userService.list());
+    }
+
+    @GetMapping("/searchForCpf/{cpf}")
+    public ResponseEntity searchCpf(@PathVariable String cpf) throws ValidException{
+        return ResponseEntity.ok(userService.findCpf(cpf));
+    }
+
     @PostMapping("/register") @Transactional
     public ResponseEntity<UserMevaDto> register(@RequestBody UserMevaDto userDto) throws ValidException {
         return ResponseEntity.ok(userService.register(userDto).converter());
@@ -27,21 +37,12 @@ public class UserController {
 
     @PutMapping("/update/{cpf}") @Transactional
     public ResponseEntity<UserMevaDto> update(String cpf, @RequestBody UserMevaDto userDto){
-        return userService.update(userDto, cpf);
+        return ResponseEntity.ok(userService.update(userDto, cpf));
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<UserMeva>> list(){
-        return ResponseEntity.ok(userService.list());
-    }
-
-    @GetMapping("/searchForCpf/{cpf}")
-    public ResponseEntity searchCpf(@PathVariable String cpf){
-        return userService.searchForCpf(cpf);
-    }
 
     @DeleteMapping("/delete/{cpf}")
-    public ResponseEntity delete(@PathVariable String cpf){
+    public ResponseEntity<String> delete(@PathVariable String cpf) {
         return userService.delete(cpf);
     }
 }

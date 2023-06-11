@@ -1,6 +1,6 @@
 package com.meva.finance.dto;
 
-import com.meva.finance.model.UserMeva;
+import com.meva.finance.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,8 +22,8 @@ public class UserMevaDto {
     private String city;
     private FamilyDto familyDto;
 
-    public UserMeva converter(){
-        return UserMeva.builder().cpf(cpf).name(name).genre(genre).birth(birth).state(state).city(city).build();
+    public User converter(){
+        return User.builder().cpf(cpf).name(name).genre(genre).birth(birth).state(state).city(city).build();
     }
 
 }
