@@ -50,7 +50,9 @@ class UserServiceTest {
     void testValidExceptionFamily_FamilyIdNotFound_ThrowsValidException() {
         UserMevaDto userDto = new UserMevaDto();
         userDto.setFamilyDto(new FamilyDto(50L, "Santos"));
-        Mockito.when(familyRepository.findById(userDto.getFamilyDto().getId())).thenReturn(Optional.empty());
+
+        when(familyRepository.findById(userDto.getFamilyDto().getId())).thenReturn(Optional.empty());
+
         try {
             userService.validExceptionFamily(userDto);
         } catch (Exception e) {
@@ -183,7 +185,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testListUsers(){
+    void testListUsers() {
         //dados test
         User user1 = new User();
         User user2 = new User();
@@ -201,7 +203,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testFindUser(){
+    void testFindUser() {
         //dados test
         String cpf = "67352651427";
         User user = new User();
@@ -218,7 +220,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testFindUserNotFound(){
+    void testFindUserNotFound() {
         //dados test
         String cpf = "67352651427";
 
@@ -226,7 +228,7 @@ class UserServiceTest {
         when(userRepository.findById(cpf)).thenReturn(Optional.empty());
 
         //act + assert
-        assertThrows(ValidException.class, ()-> userService.findCpf(cpf));
+        assertThrows(ValidException.class, () -> userService.findCpf(cpf));
     }
 
 }

@@ -17,8 +17,12 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/list")
     public ResponseEntity<List<User>> list(){
@@ -26,8 +30,8 @@ public class UserController {
     }
 
     @GetMapping("/searchForCpf/{cpf}")
-    public ResponseEntity searchCpf(@PathVariable String cpf) throws ValidException{
-        return ResponseEntity.ok(userService.findCpf(cpf));
+    public ResponseEntity<UserMevaDto> searchCpf(@PathVariable String cpf) throws ValidException{
+        return ResponseEntity.ok(userService.findCpf(cpf).converter());
     }
 
     @PostMapping("/register") @Transactional
@@ -39,7 +43,6 @@ public class UserController {
     public ResponseEntity<UserMevaDto> update(String cpf, @RequestBody UserMevaDto userDto){
         return ResponseEntity.ok(userService.update(userDto, cpf));
     }
-
 
     @DeleteMapping("/delete/{cpf}")
     public ResponseEntity<String> delete(@PathVariable String cpf) {
